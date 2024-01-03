@@ -55,13 +55,13 @@ int main() {
                     north = &tileMapLast[x][y + 1];
                 }
                 if (x < mapSize - 1) {
-                    east == &tileMapLast[x + 1][y];
+                    east = &tileMapLast[x + 1][y];
                 }
                 if (y > 0) {
                     south = &tileMapLast[x][y - 1];
                 }
                 if (x > 0) {
-                    west == &tileMapLast[x - 1][y];
+                    west = &tileMapLast[x - 1][y];
                 }
 
                 bool onFire = false;
