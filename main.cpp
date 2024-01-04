@@ -4,7 +4,7 @@
 #include "color.hpp"
 #include "Tiles.h"
 
-//TODO
+
 //vytvoriť svet so zadanými rozmermi
 //načítanie a uloženie sveta do lok. súboru
 //zapnutie a vypnutie simuulácie
