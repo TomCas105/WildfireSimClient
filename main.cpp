@@ -4,14 +4,14 @@
 #include "color.hpp"
 #include "Tiles.h"
 
-
-//TODO vytvoriť svet so zadanými rozmermi
-//TODO načítanie a uloženie sveta do lok. súboru
-//TODO zapnutie a vypnutie simuulácie
-//TODO definovanie buniek ktoré majú horieť počas simulácie
-//TODO pripojiť na server a stiahnuť z neho príslušný svet
-//TODO uložiť svet na server
-//TODO burnt na grass pri watter 10% a grass na forest pri forest 2%
+//TODO
+//vytvoriť svet so zadanými rozmermi
+//načítanie a uloženie sveta do lok. súboru
+//zapnutie a vypnutie simuulácie
+//definovanie buniek ktoré majú horieť počas simulácie
+//pripojiť na server a stiahnuť z neho príslušný svet
+//uložiť svet na server
+//burnt na grass pri watter 10% a grass na forest pri forest 2%
 
 using namespace std;
 
