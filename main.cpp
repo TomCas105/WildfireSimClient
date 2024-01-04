@@ -1,22 +1,23 @@
-
 #include <random>
 #include <iostream>
+#include <fstream>
+#include <limits>
 #include "color.hpp"
 #include "Tiles.h"
-
-
-//vytvoriť svet so zadanými rozmermi
-//načítanie a uloženie sveta do lok. súboru
-//zapnutie a vypnutie simuulácie
-//definovanie buniek ktoré majú horieť počas simulácie
-//pripojiť na server a stiahnuť z neho príslušný svet
-//uložiť svet na server
-//burnt na grass pri watter 10% a grass na forest pri forest 2%
 
 using namespace std;
 
 int main() {
     int mapSize = 10;
+    bool newSimulation = false;
+    cout << "Zadajte velkost mapy: ";
+    cin >> mapSize;
+    cin.ignore();
+    cout << "Nova simulacia? ";
+    cin >> newSimulation;
+    cin.ignore();
+
+
     srand(time(nullptr));
 
     //Tile type init
@@ -31,15 +32,34 @@ int main() {
     Tile tileMap[mapSize][mapSize];
     Tile tileMapLast[mapSize][mapSize];
 
-    for (int y = 0; y < mapSize; y++) {
-        for (int x = 0; x < mapSize; x++) {
-            tileMap[x][y]._type = 1 + rand() % 4;
+    if (newSimulation) {
+        for (int y = 0; y < mapSize; y++) {
+            for (int x = 0; x < mapSize; x++) {
+                tileMap[x][y]._type = 1 + rand() % 4;
+            }
         }
+        tileMap[5][2]._fireDuration = 3;
+        tileMap[5][3]._fireDuration = 3;
+        tileMap[5][4]._fireDuration = 3;
+        tileMap[6][4]._fireDuration = 3;
+    } else {
+        ifstream file("data.txt");
+        if (file.is_open()) {
+            while (!file.eof()) {
+                file >> mapSize;
+                for (int y = 0; y < mapSize; y++) {
+                    for (int x = 0; x < mapSize; x++) {
+                        file >> tileMap[x][y]._type >> tileMap[x][y]._fireDuration;
+                    }
+                }
+            }
+            file.close();
+        } else {
+            std::cerr << "Nepodarilo sa otvorit subor pre citanie" << std::endl;
+            return 1;
+        }
+        tileMap[0][0]._fireDuration = 3;
     }
-    tileMap[5][2]._fireDuration = 3;
-    tileMap[5][3]._fireDuration = 3;
-    tileMap[5][4]._fireDuration = 3;
-    tileMap[6][4]._fireDuration = 3;
 
 
     int windDirection = 0;
@@ -144,7 +164,36 @@ int main() {
                                                                                 windDirection == 3 ? "Zapad"
                                                                                                    : "Bezvetrie");
         cout << endl << endl << endl;
-        Sleep(2000);
+
+        cin.clear();
+        string moznost;
+        cout << "[hocico] pokracuj, [end] ukonci, [fire] zapal ";
+        cin >> moznost;
+
+        if (moznost == "end") {
+            break;
+        }
+
+        if (moznost == "fire") {
+            cout << "dokoncit" << endl; //TODO
+        }
+        cout << endl;
+    }
+
+    std::ofstream file("data.txt");
+    if (file.is_open()) {
+        file << mapSize << "\n";
+        for (int y = 0; y < mapSize; y++) {
+            for (int x = 0; x < mapSize; x++) {
+                file << tileMap[x][y]._type << " " << tileMap[x][y]._fireDuration << " ";
+            }
+            file << "\n";
+        }
+        file.close();
+        cout << "Mapa je ulozena" << endl;
+    } else {
+        std::cerr << "Nepodarilo sa otvorit subor pre zapis." << std::endl;
+        return 1;
     }
 
     return 0;
