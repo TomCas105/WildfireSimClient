@@ -35,13 +35,26 @@ int main() {
     tileMap[6][4]._onFire = true;
 
 
-    int windDirection = 1;
+    int windDirection = 0;
+    int windCount = 0;
+
     while (true) {
         //prekopirovanie
         for (int y = 0; y < mapSize; y++) {
             for (int x = 0; x < mapSize; x++) {
                 tileMapLast[x][y]._type = tileMap[x][y]._type;
                 tileMapLast[x][y]._onFire = tileMap[x][y]._onFire;
+            }
+        }
+
+        if (windCount != 0) {
+            windCount--;
+        } else {
+            if (1 + rand() % 100 <= 10) {
+                windDirection = rand() % 3;
+                windCount = 2;
+            } else {
+                windDirection = -1;
             }
         }
 
@@ -113,7 +126,7 @@ int main() {
         }
         cout << "Vietor: "
              << (windDirection == 0 ? "Sever" : windDirection == 1 ? "Vychod" : windDirection == 2 ? "Juh" :
-                                                                                windDirection == 0 ? "Zapad"
+                                                                                windDirection == 3 ? "Zapad"
                                                                                                    : "Bezvetrie");
         cout << endl << endl << endl;
         Sleep(2000);
