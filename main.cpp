@@ -5,7 +5,6 @@
 #include "Tiles.h"
 
 
-
 using namespace std;
 
 int main() {
@@ -29,30 +28,34 @@ int main() {
             tileMap[x][y]._type = 1 + rand() % 4;
         }
     }
-    tileMap[5][2]._onFire = true;
-    tileMap[5][3]._onFire = true;
-    tileMap[5][4]._onFire = true;
-    tileMap[6][4]._onFire = true;
+    tileMap[5][2]._fireDuration = 3;
+    tileMap[5][3]._fireDuration = 3;
+    tileMap[5][4]._fireDuration = 3;
+    tileMap[6][4]._fireDuration = 3;
 
 
     int windDirection = 0;
-    int windCount = 0;
+    int windDuration = 0;
 
     while (true) {
         //prekopirovanie
         for (int y = 0; y < mapSize; y++) {
             for (int x = 0; x < mapSize; x++) {
                 tileMapLast[x][y]._type = tileMap[x][y]._type;
-                tileMapLast[x][y]._onFire = tileMap[x][y]._onFire;
+                tileMapLast[x][y]._fireDuration = tileMap[x][y]._fireDuration;
             }
         }
 
-        if (windCount != 0) {
-            windCount--;
+        if (windDuration != 0) {
+            double p = (double) rand() / RAND_MAX;
+            if (p >= 0.25) {
+                windDuration--;
+            }
         } else {
-            if (1 + rand() % 100 <= 10) {
+            double p = (double) rand() / RAND_MAX;
+            if (p <= 0.1) {
                 windDirection = rand() % 3;
-                windCount = 2;
+                windDuration = 2;
             } else {
                 windDirection = -1;
             }
@@ -79,16 +82,16 @@ int main() {
                     west = &tileMapLast[x - 1][y];
                 }
 
-                bool onFire = false;
+                int fireDuration = false;
                 int newType = current->_type;
 
                 tileTypes[current->_type].Update(
                         current, windDirection, north, east, south, west,
-                        &newType, &onFire
+                        &newType, &fireDuration
                 );
 
                 tileMap[x][y]._type = newType;
-                tileMap[x][y]._onFire = onFire;
+                tileMap[x][y]._fireDuration = fireDuration;
             }
         }
 
@@ -97,17 +100,21 @@ int main() {
             for (int x = 0; x < mapSize; x++) {
                 switch (tileMap[x][y]._type) {
                     case 0:
-                        cout << dye::light_red("B") ;
+                        if (tileMap[x][y]._fireDuration > 0) {
+                            cout << dye::colorize("B", "red").invert();
+                        } else {
+                            cout << dye::light_red("B");
+                        }
                         break;
                     case 1:
-                        if (tileMap[x][y]._onFire) {
+                        if (tileMap[x][y]._fireDuration > 0) {
                             cout << dye::colorize("F", "red").invert();
                         } else {
                             cout << dye::green("F");
                         }
                         break;
                     case 2:
-                        if (tileMap[x][y]._onFire) {
+                        if (tileMap[x][y]._fireDuration > 0) {
                             cout << dye::colorize("G", "red").invert();
                         } else {
                             cout << dye::light_green("G");

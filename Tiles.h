@@ -21,7 +21,7 @@ struct TileTransformation {
 
 struct Tile {
     int _type = 1;
-    bool _onFire = false;
+    int _fireDuration = 0;
 };
 
 class TileType {
@@ -38,7 +38,7 @@ public:
 
     void
     Update(Tile *pCurrent, int pWindDirection, Tile *pNorth, Tile *pEast, Tile *pSouth, Tile *pWest,
-           int *outNewType, bool *outOnFire);
+           int *outNewType, int *outFireDuration);
 
 
     static TileType getBurntTileType();
