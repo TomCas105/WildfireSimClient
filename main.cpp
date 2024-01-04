@@ -1,7 +1,10 @@
 
 #include <random>
 #include <iostream>
+#include "color.hpp"
 #include "Tiles.h"
+
+
 
 using namespace std;
 
@@ -33,7 +36,6 @@ int main() {
 
 
     int windDirection = 1;
-
     while (true) {
         //prekopirovanie
         for (int y = 0; y < mapSize; y++) {
@@ -80,12 +82,32 @@ int main() {
         //vypis
         for (int y = 0; y < mapSize; y++) {
             for (int x = 0; x < mapSize; x++) {
-                cout << tileMap[x][y]._type;
-                if (tileMap[x][y]._onFire) {
-                    cout << "H   ";
-                } else {
-                    cout << "    ";
+                switch (tileMap[x][y]._type) {
+                    case 0:
+                        cout << dye::light_red("B") ;
+                        break;
+                    case 1:
+                        if (tileMap[x][y]._onFire) {
+                            cout << dye::colorize("F", "red").invert();
+                        } else {
+                            cout << dye::green("F");
+                        }
+                        break;
+                    case 2:
+                        if (tileMap[x][y]._onFire) {
+                            cout << dye::colorize("G", "red").invert();
+                        } else {
+                            cout << dye::light_green("G");
+                        }
+                        break;
+                    case 3:
+                        cout << dye::grey("R");
+                        break;
+                    default:
+                        cout << dye::blue("W");
+                        break;
                 }
+                cout << "    ";
             }
             cout << endl << endl;
         }
