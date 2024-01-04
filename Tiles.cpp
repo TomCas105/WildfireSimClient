@@ -91,12 +91,18 @@ TileType TileType::getGrassTileType() {
 TileType TileType::getRocksTileType() {
     TileType tileType;
     tileType._type = 3;
+    tileType._fireWind = 0;
+    tileType._fireNoWind = 0;
+    tileType._fireAgainstWind = 0;
     return tileType;
 }
 
 TileType TileType::getWaterTileType() {
     TileType tileType;
     tileType._type = 4;
+    tileType._fireWind = 0;
+    tileType._fireNoWind = 0;
+    tileType._fireAgainstWind = 0;
     return tileType;
 }
 
