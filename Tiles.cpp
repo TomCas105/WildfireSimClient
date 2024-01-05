@@ -72,6 +72,12 @@ TileType TileType::getBurntTileType() {
             ._transformTile = 2,
             ._requiredTile = 4
     });
+    // toto nie je v zadani, ale bude to vyzerat lepsie, ked zhorene polia sa zmenia na luku, ked maju vedla seba luku
+    tileType._transforms.push_back(TileTransformation{
+            ._transformChance = 0.01,
+            ._transformTile = 2,
+            ._requiredTile = 2
+    });
     return tileType;
 }
 
