@@ -1,7 +1,7 @@
 #include <random>
 #include <iostream>
 #include <fstream>
-#include <limits>
+#include <sstream>
 #include "color.hpp"
 #include "Tiles.h"
 
@@ -10,13 +10,10 @@ using namespace std;
 int main() {
     int mapSize = 10;
     bool newSimulation = false;
-    cout << "Zadajte velkost mapy: ";
-    cin >> mapSize;
-    cin.ignore();
-    cout << "Nova simulacia? ";
+    cout << "Nova simulacia [1/0]? " << endl;
     cin >> newSimulation;
     cin.ignore();
-
+    cin.clear();
 
     srand(time(nullptr));
 
@@ -33,15 +30,16 @@ int main() {
     Tile tileMapLast[mapSize][mapSize];
 
     if (newSimulation) {
+        cout << "Zadajte velkost mapy: " << endl;
+        cin >> mapSize;
+        cin.ignore();
+        cin.clear();
         for (int y = 0; y < mapSize; y++) {
             for (int x = 0; x < mapSize; x++) {
                 tileMap[x][y]._type = 1 + rand() % 4;
             }
         }
-        tileMap[5][2]._fireDuration = 3;
-        tileMap[5][3]._fireDuration = 3;
-        tileMap[5][4]._fireDuration = 3;
-        tileMap[6][4]._fireDuration = 3;
+
     } else {
         ifstream file("data.txt");
         if (file.is_open()) {
@@ -55,12 +53,10 @@ int main() {
             }
             file.close();
         } else {
-            std::cerr << "Nepodarilo sa otvorit subor pre citanie" << std::endl;
+            std::cerr << "Nepodarilo sa otvorit subor pre lokalne citanie" << std::endl;
             return 1;
         }
-        tileMap[0][0]._fireDuration = 3;
     }
-
 
     int windDirection = 0;
     int windDuration = 0;
@@ -160,22 +156,39 @@ int main() {
             cout << endl << endl;
         }
         cout << "Vietor: "
-             << (windDirection == 0 ? "Sever" : windDirection == 1 ? "Vychod" : windDirection == 2 ? "Juh" :
-                                                                                windDirection == 3 ? "Zapad"
-                                                                                                   : "Bezvetrie");
+             << (windDirection == 0 ? "Sever" :
+             windDirection == 1 ? "Vychod" :
+             windDirection == 2 ? "Juh" :
+             windDirection == 3 ? "Zapad": "Bezvetrie");
+
         cout << endl << endl << endl;
 
         cin.clear();
-        string moznost;
-        cout << "[hocico] pokracuj, [end] ukonci, [fire] zapal ";
-        cin >> moznost;
+        cin.clear();
+        cin.clear();
 
-        if (moznost == "end") {
+        string command;
+        cout << "*enter* pokracuj, [end] ukonci a uloz, [fire [x] [y]] zapal " << endl;
+
+        std::getline(std::cin, command);
+        cin.clear();
+        if (command == "end") {
             break;
-        }
-
-        if (moznost == "fire") {
-            cout << "dokoncit" << endl; //TODO
+        } else if (command.substr(0, 4) == "fire") {
+            int x, y;
+            istringstream iss(command.substr(5));
+            if (iss >> x >> y) {
+                if (tileMap[y][x]._type == 0 || tileMap[y][x]._type == 3 || tileMap[y][x]._type == 4) {
+                    cout << "Tento typ pozicie nemoze horiet" << endl;
+                } else {
+                    cout << "Zapal na poziciach: " << x << " | " << y << endl;
+                    tileMap[y][x]._fireDuration = 3;
+                }
+            } else {
+                cout << "Neznamy prikaz" << endl;
+            }
+        } else {
+            cout << "Neznamy prikaz" << endl;
         }
         cout << endl;
     }
@@ -190,9 +203,9 @@ int main() {
             file << "\n";
         }
         file.close();
-        cout << "Mapa je ulozena" << endl;
+        cout << "Mapa je ulozena lokalne" << endl;
     } else {
-        std::cerr << "Nepodarilo sa otvorit subor pre zapis." << std::endl;
+        std::cerr << "Nepodarilo sa otvorit subor pre lokalny zapis." << std::endl;
         return 1;
     }
 
