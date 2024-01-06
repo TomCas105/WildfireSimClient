@@ -37,6 +37,62 @@ int main() {
     int windDuration = 0;
 
     while (true) {
+
+        //vypis
+        system("cls");
+        for (int y = mapSize-1; y >= 0; y--) {
+            for (int x = 0; x < mapSize; x++) {
+                switch (tileMap[x][y]._type) {
+                    case 0:
+                        if (tileMap[x][y]._fireDuration > 0) {
+                            cout << dye::colorize("B", "red").invert();
+                        } else {
+                            cout << dye::light_red("B");
+                        }
+                        break;
+                    case 1:
+                        if (tileMap[x][y]._fireDuration > 0) {
+                            cout << dye::colorize("F", "red").invert();
+                        } else {
+                            cout << dye::green("F");
+                        }
+                        break;
+                    case 2:
+                        if (tileMap[x][y]._fireDuration > 0) {
+                            cout << dye::colorize("G", "red").invert();
+                        } else {
+                            cout << dye::light_green("G");
+                        }
+                        break;
+                    case 3:
+                        cout << dye::grey("R");
+                        break;
+                    default:
+                        cout << dye::blue("W");
+                        break;
+                }
+                cout << "   ";
+            }
+            cout << endl << endl;
+        }
+        string wind = "Bezvetrie";
+        switch (windDirection) {
+            case 0:
+                wind = "Sever";
+                break;
+            case 1:
+                wind = "Vychod";
+                break;
+            case 2:
+                wind = "Juh";
+                break;
+            case 3:
+                wind = "Zapad";
+                break;
+        }
+        cout << "Vietor: " << wind;
+        cout << endl << endl << endl;
+
         //prekopirovanie
         for (int y = 0; y < mapSize; ++y) {
             for (int x = 0; x < mapSize; ++x) {
@@ -94,60 +150,6 @@ int main() {
             }
         }
 
-        //vypis
-        system("cls");
-        for (int y = 0; y < mapSize; y++) {
-            for (int x = 0; x < mapSize; x++) {
-                switch (tileMap[x][y]._type) {
-                    case 0:
-                        if (tileMap[x][y]._fireDuration > 0) {
-                            cout << dye::colorize("B", "red").invert();
-                        } else {
-                            cout << dye::light_red("B");
-                        }
-                        break;
-                    case 1:
-                        if (tileMap[x][y]._fireDuration > 0) {
-                            cout << dye::colorize("F", "red").invert();
-                        } else {
-                            cout << dye::green("F");
-                        }
-                        break;
-                    case 2:
-                        if (tileMap[x][y]._fireDuration > 0) {
-                            cout << dye::colorize("G", "red").invert();
-                        } else {
-                            cout << dye::light_green("G");
-                        }
-                        break;
-                    case 3:
-                        cout << dye::grey("R");
-                        break;
-                    default:
-                        cout << dye::blue("W");
-                        break;
-                }
-                cout << "   ";
-            }
-            cout << endl << endl;
-        }
-        string wind = "Bezvetrie";
-        switch (windDirection) {
-            case 0:
-                wind = "Sever";
-                break;
-            case 1:
-                wind = "Vychod";
-                break;
-            case 2:
-                wind = "Juh";
-                break;
-            case 3:
-                wind = "Zapad";
-                break;
-        }
-        cout << "Vietor: " << wind;
-        cout << endl << endl << endl;
 
         cin.clear();
         string moznost;
