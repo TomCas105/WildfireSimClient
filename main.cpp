@@ -32,19 +32,14 @@ int main() {
             tileMap[x][y]._type = 1 + rand() % 4;
         }
     }
-    tileMap[5][2]._fireDuration = 3;
-    tileMap[5][3]._fireDuration = 3;
-    tileMap[5][4]._fireDuration = 3;
-    tileMap[6][4]._fireDuration = 3;
-
 
     int windDirection = 0;
     int windDuration = 0;
 
     while (true) {
         //prekopirovanie
-        for (int y = 0; y < mapSize; y++) {
-            for (int x = 0; x < mapSize; x++) {
+        for (int y = 0; y < mapSize; ++y) {
+            for (int x = 0; x < mapSize; ++x) {
                 tileMapLast[x][y]._type = tileMap[x][y]._type;
                 tileMapLast[x][y]._fireDuration = tileMap[x][y]._fireDuration;
             }
@@ -65,8 +60,8 @@ int main() {
             }
         }
 
-        for (int y = 0; y < mapSize; y++) {
-            for (int x = 0; x < mapSize; x++) {
+        for (int y = 0; y < mapSize; ++y) {
+            for (int x = 0; x < mapSize; ++x) {
                 Tile *current = &tileMapLast[x][y];
                 Tile *north = nullptr;
                 Tile *east = nullptr;
@@ -100,6 +95,7 @@ int main() {
         }
 
         //vypis
+        system("cls");
         for (int y = 0; y < mapSize; y++) {
             for (int x = 0; x < mapSize; x++) {
                 switch (tileMap[x][y]._type) {
@@ -135,10 +131,22 @@ int main() {
             }
             cout << endl << endl;
         }
-        cout << "Vietor: "
-             << (windDirection == 0 ? "Sever" : windDirection == 1 ? "Vychod" : windDirection == 2 ? "Juh" :
-                                                                                windDirection == 3 ? "Zapad"
-                                                                                                   : "Bezvetrie");
+        string wind = "Bezvetrie";
+        switch (windDirection) {
+            case 0:
+                wind = "Sever";
+                break;
+            case 1:
+                wind = "Vychod";
+                break;
+            case 2:
+                wind = "Juh";
+                break;
+            case 3:
+                wind = "Zapad";
+                break;
+        }
+        cout << "Vietor: " << wind;
         cout << endl << endl << endl;
 
         cin.clear();
@@ -158,6 +166,7 @@ int main() {
                 cout << "suradnica Y: ";
                 int y;
                 cin >> y;
+                tileMap[x - 1][y - 1]._fireDuration = 3;
             }
             catch (exception &e) {
                 cerr << "somarina, my sme poobede" << endl;
