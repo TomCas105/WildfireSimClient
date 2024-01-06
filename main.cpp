@@ -12,8 +12,9 @@ struct Map {
     vector<vector<Tile>> _mapLast;
 
     pthread_mutex_t _mut;
-    pthread_cond_t _cond_step;
-    pthread_cond_t _cond_fire;
+    pthread_cond_t _mapStep;
+    pthread_cond_t _fireAdd;
+    pthread_cond_t _fireStart;
 
     Map(int pSize);
 
@@ -61,20 +62,29 @@ void *enflameTile(void *arg) {
     while (i > 0) {
         i--;
 
+        //tu by mal byt iny mutex, lebo sa pridavaju suradnice do FireData
+        //a je rozdiel pridavat suradnice a zapalovat biotopy
         //Pristup k mape
         pthread_mutex_lock(&map._mut);
 
         //Cakanie ak su suradnice pre ohen prazdne
         while (data->_xCords.empty()) {
             //Signal pre krok simulacie
-            pthread_cond_signal(&map._cond_step);
-            pthread_cond_wait(&map._cond_fire, &map._mut);
+            pthread_cond_wait(&map._fireAdd, &map._mut);
         }
+
+        //tu by mal zacinat mutex &map._mut
+        pthread_cond_wait(&map._fireStart, &map._mut);
 
         //Zapalenie biotopov
         for (int i = 0; i < data->_xCords.size(); ++i) {
             map._mapCurrent[data->_xCords[i]][data->_yCords[i]]._fireDuration = 3;
+            data->_xCords.pop_back();
+            data->_yCords.pop_back();
         }
+
+        //Signal pre krok simulacie
+        pthread_cond_signal(&map._mapStep);
 
         //Uvolnenie mapy
         pthread_mutex_unlock(&map._mut);
@@ -102,7 +112,7 @@ void *mapStep(void *arg) {
         //Pristup k mape
         pthread_mutex_lock(&map._mut);
 
-        pthread_cond_wait(&map._cond_step, &map._mut);
+        pthread_cond_wait(&map._mapStep, &map._mut);
 
         //vietor
         if (windDuration != 0) {
@@ -219,7 +229,7 @@ void *mapStep(void *arg) {
         printf("Vietor %s\n\n\n", wind.c_str());
 
         //Signal pre vytvorenie ohna
-        pthread_cond_signal(&map._cond_fire);
+        pthread_cond_signal(&map._fireStart);
 
         //Uvolnenie mapy
         pthread_mutex_unlock(&map._mut);
@@ -254,8 +264,9 @@ int main() {
 
     //Init mutexu a kond. premennych
     pthread_mutex_init(&map._mut, nullptr);
-    pthread_cond_init(&map._cond_step, nullptr);
-    pthread_cond_init(&map._cond_fire, nullptr);
+    pthread_cond_init(&map._mapStep, nullptr);
+    pthread_cond_init(&map._fireAdd, nullptr);
+    pthread_cond_init(&map._fireStart, nullptr);
 
     //Vytvorenie vlakna simulacie
     pthread_t simulationThread;
@@ -268,7 +279,9 @@ int main() {
     //Vytvorenie vlakna pre ohen
     pthread_t fireThread;
     FireData fireData = {
-            ._map = map
+            ._map = map,
+            ._xCords = vector<int>(),
+            ._yCords = vector<int>()
     };
     pthread_create(&fireThread, nullptr, enflameTile, &fireData);
 
@@ -285,14 +298,16 @@ int main() {
                 int y = stoi(input);
 
                 fireData._xCords.push_back(x);
-                fireData._xCords.push_back(y);
+                fireData._yCords.push_back(y);
 
                 //Signal pre vytvorenie ohna
-                pthread_cond_signal(&map._cond_fire);
+                pthread_cond_signal(&map._fireAdd);
             }
             catch (exception &e) {
                 printf("Neplatny prikaz.");
             }
+        } else {
+            pthread_cond_signal(&map._mapStep);
         }
 
 
@@ -305,8 +320,9 @@ int main() {
 
     //Zanik mutexu a kond. premenych
     pthread_mutex_destroy(&map._mut);
-    pthread_cond_destroy(&map._cond_step);
-    pthread_cond_destroy(&map._cond_fire);
+    pthread_cond_destroy(&map._mapStep);
+    pthread_cond_destroy(&map._fireAdd);
+    pthread_cond_destroy(&map._fireStart);
 
     return 0;
 }
