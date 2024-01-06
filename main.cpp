@@ -39,66 +39,70 @@ Map::Map(int pSize) {
 }
 
 Map::~Map() {
+    for (int i = 0; i < _mapSize; ++i) {
+        _mapCurrent[i].clear();
+        _mapLast[i].clear();
+    }
     _mapCurrent.clear();
     _mapLast.clear();
 }
 
-struct EnflameTileData {
+struct FireData {
     Map _map;
-    int _tileX;
-    int _tileY;
+    vector<int> _xCords;
+    vector<int> _yCords;
 };
 
 void *enflameTile(void *arg) {
-    auto *data = static_cast<EnflameTileData *>(arg);
+    auto *data = static_cast<FireData *>(arg);
+    auto map = data->_map;
 
+    int i = 20;
+    while (i > 0) {
+        i--;
+
+        //Pristup k mape
+        pthread_mutex_lock(&map._mut);
+
+        //Cakanie ak su suradnice pre ohen prazdne
+        while (data->_xCords.empty()) {
+            //Signal pre krok simulacie
+            pthread_cond_signal(&map._cond_step);
+            pthread_cond_wait(&map._cond_fire, &map._mut);
+        }
+
+        //Zapalenie biotopov
+        for (int i = 0; i < data->_xCords.size(); ++i) {
+            map._mapCurrent[data->_xCords[i]][data->_yCords[i]]._fireDuration = 3;
+        }
+
+        //Uvolnenie mapy
+        pthread_mutex_unlock(&map._mut);
+    }
+    return nullptr;
 }
 
-struct MapStepData {
+struct MapData {
     Map _map;
     vector<TileType> _tileTypes;
 };
 
 void *mapStep(void *arg) {
-    auto *data = static_cast<MapStepData *>(arg);
+    auto *data = static_cast<MapData *>(arg);
 
-}
-
-int main() {
-    int mapSize = 10;
-
-    srand(time(nullptr));
-
-    //Tile type init
-    vector<TileType> tileTypes;
-    tileTypes.push_back(TileType::getBurntTileType());
-    tileTypes.push_back(TileType::getForestTileType());
-    tileTypes.push_back(TileType::getGrassTileType());
-    tileTypes.push_back(TileType::getRocksTileType());
-    tileTypes.push_back(TileType::getWaterTileType());
-
-    //Tile map init
-    Map map(mapSize);
-
-
-    map._mapCurrent[5][2]._fireDuration = 3;
-    map._mapCurrent[5][3]._fireDuration = 3;
-    map._mapCurrent[6][3]._fireDuration = 3;
-    map._mapCurrent[6][4]._fireDuration = 3;
-    map._mapCurrent[7][4]._fireDuration = 3;
-
+    auto map = data->_map;
 
     int windDirection = 0;
     int windDuration = 0;
 
-    while (true) {
-        //buffering
-        for (int y = 0; y < mapSize; y++) {
-            for (int x = 0; x < mapSize; x++) {
-                map._mapLast[x][y]._type = map._mapCurrent[x][y]._type;
-                map._mapLast[x][y]._fireDuration = map._mapCurrent[x][y]._fireDuration;
-            }
-        }
+    int i = 20;
+    while (i > 0) {
+        i--;
+
+        //Pristup k mape
+        pthread_mutex_lock(&map._mut);
+
+        pthread_cond_wait(&map._cond_step, &map._mut);
 
         //vietor
         if (windDuration != 0) {
@@ -116,19 +120,27 @@ int main() {
             }
         }
 
+        //buffering
+        for (int y = 0; y < map._mapSize; y++) {
+            for (int x = 0; x < map._mapSize; x++) {
+                map._mapLast[x][y]._type = map._mapCurrent[x][y]._type;
+                map._mapLast[x][y]._fireDuration = map._mapCurrent[x][y]._fireDuration;
+            }
+        }
+
         //krok
-        for (int y = 0; y < mapSize; y++) {
-            for (int x = 0; x < mapSize; x++) {
+        for (int y = 0; y < map._mapSize; y++) {
+            for (int x = 0; x < map._mapSize; x++) {
                 Tile *current = &map._mapLast[x][y];
                 Tile *north = nullptr;
                 Tile *east = nullptr;
                 Tile *south = nullptr;
                 Tile *west = nullptr;
 
-                if (y < mapSize - 1) {
+                if (y < map._mapSize - 1) {
                     north = &map._mapLast[x][y + 1];
                 }
-                if (x < mapSize - 1) {
+                if (x < map._mapSize - 1) {
                     east = &map._mapLast[x + 1][y];
                 }
                 if (y > 0) {
@@ -141,7 +153,7 @@ int main() {
                 int fireDuration = false;
                 int newType = current->_type;
 
-                tileTypes[current->_type].Update(
+                data->_tileTypes[current->_type].Update(
                         current, windDirection, north, east, south, west,
                         &newType, &fireDuration
                 );
@@ -152,8 +164,8 @@ int main() {
         }
 
         //vypis
-        for (int y = 0; y < mapSize; y++) {
-            for (int x = 0; x < mapSize; x++) {
+        for (int y = 0; y < map._mapSize; y++) {
+            for (int x = 0; x < map._mapSize; x++) {
                 switch (map._mapCurrent[x][y]._type) {
                     case 0:
                         if (map._mapCurrent[x][y]._fireDuration > 0) {
@@ -185,15 +197,117 @@ int main() {
                 }
                 cout << "    ";
             }
-            cout << endl << endl;
+            printf("\n\n");
         }
-        cout << "Vietor: "
-             << (windDirection == 0 ? "Sever" : windDirection == 1 ? "Vychod" : windDirection == 2 ? "Juh" :
-                                                                                windDirection == 3 ? "Zapad"
-                                                                                                   : "Bezvetrie");
-        cout << endl << endl << endl;
+        string wind = "Bezvetrie";
+        switch (windDirection) {
+            case 0:
+                wind = "Sever";
+                break;
+            case 1:
+                wind = "Vychod";
+                break;
+            case 2:
+                wind = "Juh";
+                break;
+            case 3:
+                wind = "Zapad";
+                break;
+            default:
+                break;
+        }
+        printf("Vietor %s\n\n\n", wind.c_str());
+
+        //Signal pre vytvorenie ohna
+        pthread_cond_signal(&map._cond_fire);
+
+        //Uvolnenie mapy
+        pthread_mutex_unlock(&map._mut);
+
         Sleep(1000);
     }
+    return nullptr;
+}
+
+int main() {
+    int mapSize = 10;
+
+    srand(time(nullptr));
+
+    //Tile type init
+    vector<TileType> tileTypes;
+    tileTypes.push_back(TileType::getBurntTileType());
+    tileTypes.push_back(TileType::getForestTileType());
+    tileTypes.push_back(TileType::getGrassTileType());
+    tileTypes.push_back(TileType::getRocksTileType());
+    tileTypes.push_back(TileType::getWaterTileType());
+
+    //Tile map init
+    Map map(mapSize);
+
+
+    map._mapCurrent[5][2]._fireDuration = 3;
+    map._mapCurrent[5][3]._fireDuration = 3;
+    map._mapCurrent[6][3]._fireDuration = 3;
+    map._mapCurrent[6][4]._fireDuration = 3;
+    map._mapCurrent[7][4]._fireDuration = 3;
+
+    //Init mutexu a kond. premennych
+    pthread_mutex_init(&map._mut, nullptr);
+    pthread_cond_init(&map._cond_step, nullptr);
+    pthread_cond_init(&map._cond_fire, nullptr);
+
+    //Vytvorenie vlakna simulacie
+    pthread_t simulationThread;
+    MapData mapData = {
+            ._map = map,
+            ._tileTypes = tileTypes
+    };
+    pthread_create(&simulationThread, nullptr, mapStep, &mapData);
+
+    //Vytvorenie vlakna pre ohen
+    pthread_t fireThread;
+    FireData fireData = {
+            ._map = map
+    };
+    pthread_create(&fireThread, nullptr, enflameTile, &fireData);
+
+    cout << "Prikazy: \nfire [x] [y] - zapalenie policka na XY suradniciach" << endl;
+    string input;
+    cin >> input;
+    while (input != "exit") {
+        //Prikazy
+        if (input == "fire") {
+            try {
+                cin >> input;
+                int x = stoi(input);
+                cin >> input;
+                int y = stoi(input);
+
+                fireData._xCords.push_back(x);
+                fireData._xCords.push_back(y);
+
+                //Signal pre vytvorenie ohna
+                pthread_cond_signal(&map._cond_fire);
+            }
+            catch (exception &e) {
+                printf("Neplatny prikaz.");
+            }
+        }
+
+
+        cin >> input;
+    }
+
+    //Join vlakien
+    pthread_join(simulationThread, nullptr);
+    pthread_join(fireThread, nullptr);
+
+    //Zanik mutexu a kond. premenych
+    pthread_mutex_destroy(&map._mut);
+    pthread_cond_destroy(&map._cond_step);
+    pthread_cond_destroy(&map._cond_fire);
+
     return 0;
 }
 
