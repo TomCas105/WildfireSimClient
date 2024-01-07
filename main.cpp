@@ -68,7 +68,6 @@ int main() {
             for (int x = 0; x < mapSize; x++) {
                 tileMapLast[x][y]._type = tileMap[x][y]._type;
                 tileMapLast[x][y]._fireDuration = tileMap[x][y]._fireDuration;
-                cout << tileMap[x][y]._fireDuration << endl;
             }
         }
 
