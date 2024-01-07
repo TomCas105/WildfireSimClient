@@ -36,8 +36,9 @@ public:
 
     ~TileType();
 
-    void
-    Update(Tile *pCurrent, int pWindDirection, Tile *pNorth, Tile *pEast, Tile *pSouth, Tile *pWest,
+    bool Flammable();
+
+    void Update(Tile *pCurrent, int pWindDirection, Tile *pNorth, Tile *pEast, Tile *pSouth, Tile *pWest,
            int *outNewType, int *outFireDuration);
 
 

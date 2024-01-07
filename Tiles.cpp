@@ -7,6 +7,10 @@
 
 using namespace std;
 
+bool TileType::Flammable() {
+    return abs(_fireWind + _fireNoWind + _fireAgainstWind) > 0.001;
+}
+
 void TileType::Update(Tile *pCurrent, int pWindDirection, Tile *pNorth, Tile *pEast, Tile *pSouth, Tile *pWest,
                       int *outNewType, int *outFireDuration) {
     Tile *surrounding[4];
