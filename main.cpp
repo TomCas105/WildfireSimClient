@@ -37,6 +37,7 @@ int main() {
         for (int y = 0; y < mapSize; y++) {
             for (int x = 0; x < mapSize; x++) {
                 tileMap[x][y]._type = 1 + rand() % 4;
+                tileMap[x][y]._fireDuration = 0;
             }
         }
 
@@ -67,6 +68,7 @@ int main() {
             for (int x = 0; x < mapSize; x++) {
                 tileMapLast[x][y]._type = tileMap[x][y]._type;
                 tileMapLast[x][y]._fireDuration = tileMap[x][y]._fireDuration;
+                cout << tileMap[x][y]._fireDuration << endl;
             }
         }
 
