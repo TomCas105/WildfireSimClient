@@ -6,4 +6,6 @@ set(CMAKE_CXX_STANDARD 17)
 add_executable(WildfireSimulator main.cpp
         Tiles.cpp
         Tiles.h
-        color.hpp)
+        color.hpp
+        ClientSocket.cpp
+        ClientSocket.h)
