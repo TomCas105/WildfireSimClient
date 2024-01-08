@@ -26,12 +26,23 @@ int main() {
     cin.clear();
 
     if (command == "new") {
-        int mapSize = 10;
+        int mapSize = 0;
         cout << "Zadajte velkost mapy: " << endl;
         cin >> mapSize;
         tileMap.MakeNew(mapSize);
     } else if (command.substr(0, 4) == "load") {
-        tileMap.LoadFromFile(command.substr(6) + ".txt");
+        bool result = false;
+        if (command.substr(6, 5) == "local") {
+            tileMap.LoadFromFile(command.substr(12));
+            result = true;
+        } else if (command.substr(6, 6) == "server"){
+            tileMap.LoadFromServer(command.substr(13));
+            result = true;
+        }
+        if (result) {
+            cout << "Mapa nacitana." << endl;
+            getline(cin, command);
+        }
     } else if (command == "end") {
         run = false;
     }
@@ -43,7 +54,7 @@ int main() {
 
         cout << endl;
         cout <<
-             "*ENTER* - krok simulacie\nfire [x] [y] - zapalenie biotopu\nsave [nazov] - ulozi mapu\nload [nazov] - nacita mapu\nend - ukonci"
+             "*ENTER* - krok simulacie\nfire [x] [y] - zapalenie biotopu\nsave [local/server] [nazov] - ulozi mapu\nload [local/server] [nazov] - nacita mapu\nend - ukonci"
              << endl;
 
         getline(cin, command);
@@ -64,9 +75,31 @@ int main() {
             }
             getline(cin, command);
         } else if (command.substr(0, 4) == "save") {
-            tileMap.SaveToServer(command.substr(5));
+            bool result = false;
+            if (command.substr(6, 5) == "local") {
+                tileMap.SaveToFile(command.substr(12));
+                result = true;
+            } else if (command.substr(6, 6) == "server"){
+                tileMap.SaveToServer(command.substr(13));
+                result = true;
+            }
+            if (result) {
+                cout << "Mapa ulozena." << endl;
+                getline(cin, command);
+            }
         } else if (command.substr(0, 4) == "load") {
-            tileMap.LoadFromServer(command.substr(5));
+            bool result = false;
+            if (command.substr(6, 5) == "local") {
+                tileMap.LoadFromFile(command.substr(12));
+                result = true;
+            } else if (command.substr(6, 6) == "server"){
+                tileMap.LoadFromServer(command.substr(13));
+                result = true;
+            }
+            if (result) {
+                cout << "Mapa nacitana." << endl;
+                getline(cin, command);
+            }
         } else {
             cout << "Neznamy prikaz" << endl;
         }
