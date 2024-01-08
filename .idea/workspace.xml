@@ -10,7 +10,9 @@
     <option name="reloaded" value="true" />
   </component>
   <component name="CMakeRunConfigurationManager">
-    <generated />
+    <generated>
+      <config projectName="WildfireClient" targetName="WildfireClient" />
+    </generated>
   </component>
   <component name="CMakeSettings">
     <configurations>
@@ -19,9 +21,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="01fbd190-ae2a-4351-8d0e-127dc179d252" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/Client/.idea/.name" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Client/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-Debug-log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-Debug-log.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,6 +33,7 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -56,11 +59,28 @@
     "WebServerToolWindowFactoryState": "true",
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
-    "last_opened_file_path": "E:/CLionProjects/WildfireSimulator",
+    "last_opened_file_path": "E:/CLionProjects/WildfireSimulator/Server",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\CLionProjects\WildfireSimulator\Server" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\CLionProjects\WildfireSimulator\Server" />
+    </key>
+  </component>
   <component name="RunManager">
+    <configuration name="WildfireServer" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="WildfireServer" TARGET_NAME="WildfireServer" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="WildfireServer" RUN_TARGET_NAME="WildfireServer">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
     <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
@@ -77,6 +97,8 @@
       <updated>1704731074989</updated>
       <workItem from="1704731076834" duration="40000" />
       <workItem from="1704731650420" duration="13000" />
+      <workItem from="1704732039471" duration="249000" />
+      <workItem from="1704732329402" duration="431000" />
     </task>
     <servers />
   </component>
