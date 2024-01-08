@@ -11,7 +11,7 @@
   </component>
   <component name="CMakeRunConfigurationManager">
     <generated>
-      <config projectName="WildfireServer" targetName="WildfireServer" />
+      <config projectName="WildfireSimulator" targetName="WildfireClient" />
     </generated>
   </component>
   <component name="CMakeSettings">
@@ -20,22 +20,91 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="01fbd190-ae2a-4351-8d0e-127dc179d252" name="Changes" comment=".">
-      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" />
+    <list default="true" id="d19a49e3-219e-42e3-abef-4ad3800b4a1b" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/deployment.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/deployment.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/cmake-build-debug/.cmake/api/v1/reply/cmakeFiles-v1-569a8c043f7ac2e5ce14.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/cmake-build-debug/.cmake/api/v1/reply/index-2024-01-08T18-12-38-0598.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/Server/cmake-build-debug/.ninja_deps" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/Server/cmake-build-debug/.ninja_log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/cmake-build-debug/CMakeFiles/3.26.4/CMakeDetermineCompilerABI_C.bin" beforeDir="false" afterPath="$PROJECT_DIR$/Server/cmake-build-debug/CMakeFiles/3.26.4/CMakeDetermineCompilerABI_C.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/cmake-build-debug/CMakeFiles/3.26.4/CompilerIdC/a.exe" beforeDir="false" afterPath="$PROJECT_DIR$/Server/cmake-build-debug/CMakeFiles/3.26.4/CompilerIdC/a.exe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/cmake-build-debug/CMakeFiles/CMakeConfigureLog.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/Server/cmake-build-debug/CMakeFiles/CMakeConfigureLog.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/cmake-build-debug/CMakeFiles/clion-Debug-log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Server/cmake-build-debug/CMakeFiles/clion-Debug-log.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/cmake-build-debug/Testing/Temporary/LastTest.log" beforeDir="false" afterPath="$PROJECT_DIR$/Server/cmake-build-debug/Testing/Temporary/LastTest.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/cmake-build-debug/build.ninja" beforeDir="false" afterPath="$PROJECT_DIR$/Server/cmake-build-debug/build.ninja" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/Server/main.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/.idea/.name" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/.idea/WildfireSimulator.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/.idea/deployment.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/.idea/other.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/CMakeLists.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/ClientSocket.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/ClientSocket.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/TileMap.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/TileMap.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/Tiles.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/Tiles.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/color.hpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/main.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/CMakeLists.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/buffer.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/cmake-build-debug/.cmake/api/v1/query/cache-v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/cmake-build-debug/.cmake/api/v1/query/cmakeFiles-v1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/cmake-build-debug/.cmake/api/v1/query/codemodel-v2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/cmake-build-debug/.cmake/api/v1/query/toolchains-v1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/cmake-build-debug/.cmake/api/v1/reply/cache-v2-ae1ac840cc05f6740cc3.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/cmake-build-debug/.cmake/api/v1/reply/cmakeFiles-v1-d819042c54a1d82e397a.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/cmake-build-debug/.cmake/api/v1/reply/codemodel-v2-b4b11edd08f7163007c5.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/cmake-build-debug/.cmake/api/v1/reply/directory-.-Debug-d0094a50bb2071803777.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/cmake-build-debug/.cmake/api/v1/reply/index-2024-01-08T19-48-01-0608.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/cmake-build-debug/.cmake/api/v1/reply/target-WildfireServer-Debug-8861beece1ae785264c1.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/cmake-build-debug/.cmake/api/v1/reply/toolchains-v1-09bb8571823e571b34dc.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/cmake-build-debug/.ninja_deps" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/cmake-build-debug/.ninja_log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/cmake-build-debug/CMakeCache.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/cmake-build-debug/CMakeFiles/3.18.4/CMakeCCompiler.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/cmake-build-debug/CMakeFiles/3.18.4/CMakeSystem.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/cmake-build-debug/CMakeFiles/3.18.4/CompilerIdC/CMakeCCompilerId.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/cmake-build-debug/CMakeFiles/3.26.4/CMakeCCompiler.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/cmake-build-debug/CMakeFiles/3.26.4/CMakeDetermineCompilerABI_C.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/cmake-build-debug/CMakeFiles/3.26.4/CMakeRCCompiler.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/cmake-build-debug/CMakeFiles/3.26.4/CMakeSystem.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/cmake-build-debug/CMakeFiles/3.26.4/CompilerIdC/CMakeCCompilerId.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/cmake-build-debug/CMakeFiles/3.26.4/CompilerIdC/a.exe" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/cmake-build-debug/CMakeFiles/CMakeConfigureLog.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/cmake-build-debug/CMakeFiles/CMakeDirectoryInformation.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/cmake-build-debug/CMakeFiles/CMakeOutput.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/cmake-build-debug/CMakeFiles/Makefile.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/cmake-build-debug/CMakeFiles/Makefile2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/cmake-build-debug/CMakeFiles/TargetDirectories.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/cmake-build-debug/CMakeFiles/WildfireServer.dir/C.includecache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/cmake-build-debug/CMakeFiles/WildfireServer.dir/DependInfo.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/cmake-build-debug/CMakeFiles/WildfireServer.dir/build.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/cmake-build-debug/CMakeFiles/WildfireServer.dir/cmake_clean.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/cmake-build-debug/CMakeFiles/WildfireServer.dir/depend.internal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/cmake-build-debug/CMakeFiles/WildfireServer.dir/depend.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/cmake-build-debug/CMakeFiles/WildfireServer.dir/flags.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/cmake-build-debug/CMakeFiles/WildfireServer.dir/link.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/cmake-build-debug/CMakeFiles/WildfireServer.dir/pos_sockets/char_buffer.c.obj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/cmake-build-debug/CMakeFiles/WildfireServer.dir/progress.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/cmake-build-debug/CMakeFiles/clion-Debug-log.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/cmake-build-debug/CMakeFiles/clion-environment.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/cmake-build-debug/CMakeFiles/cmake.check_cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/cmake-build-debug/CMakeFiles/progress.marks" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/cmake-build-debug/CMakeFiles/rules.ninja" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/cmake-build-debug/Makefile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/cmake-build-debug/Testing/Temporary/LastTest.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/cmake-build-debug/WildfireServer.cbp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/cmake-build-debug/build.ninja" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/cmake-build-debug/cmake_install.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/main.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/pos_sockets/active_socket.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/pos_sockets/active_socket.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/pos_sockets/char_buffer.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/pos_sockets/char_buffer.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/pos_sockets/linked_list.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/pos_sockets/passive_socket.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/pos_sockets/passive_socket.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-Debug-log.txt" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,48 +118,39 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectApplicationVersion">
-    <option name="ide" value="CLion" />
-    <option name="majorVersion" value="2023" />
-    <option name="minorVersion" value="2.2" />
-  </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
   &quot;associatedIndex&quot;: 1
 }</component>
-  <component name="ProjectId" id="2agCwJohUJBuQgDNNpRI7M0jImf" />
+  <component name="ProjectId" id="2agFU8NOPBGsBP6wXJMcLNI42bi" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;true&quot;,
-    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;E:/CLionProjects/WildfireSimulator/Server&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;CPPToolchains&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "WebServerToolWindowFactoryState": "true",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "last_opened_file_path": "E:/CLionProjects/WildfireSimClient",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "settings.editor.selected.configurable": "CPPToolchains",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
-  <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="E:\CLionProjects\WildfireSimulator\Server" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="E:\CLionProjects\WildfireSimulator\Server" />
-    </key>
-  </component>
+}]]></component>
   <component name="RunManager">
-    <configuration name="WildfireServer" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="WildfireServer" TARGET_NAME="WildfireServer" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="WildfireServer" RUN_TARGET_NAME="WildfireServer">
+    <configuration name="WildfireClient" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="WildfireClient" TARGET_NAME="WildfireClient" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="WildfireClient" RUN_TARGET_NAME="WildfireClient">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -104,36 +164,16 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="01fbd190-ae2a-4351-8d0e-127dc179d252" name="Changes" comment="" />
-      <created>1704731074989</created>
+      <changelist id="d19a49e3-219e-42e3-abef-4ad3800b4a1b" name="Changes" comment="" />
+      <created>1704732329651</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1704731074989</updated>
-      <workItem from="1704731076834" duration="40000" />
-      <workItem from="1704731650420" duration="13000" />
-      <workItem from="1704732039471" duration="249000" />
-      <workItem from="1704732329402" duration="962000" />
-      <workItem from="1704735914615" duration="1602000" />
-      <workItem from="1704738811817" duration="4260000" />
-      <workItem from="1704743238100" duration="133000" />
+      <updated>1704732329651</updated>
+      <workItem from="1704732331318" duration="575000" />
+      <workItem from="1704735262990" duration="648000" />
+      <workItem from="1704743718496" duration="20000" />
+      <workItem from="1704744829315" duration="29000" />
     </task>
-    <task id="LOCAL-00001" summary="Pridany server">
-      <option name="closed" value="true" />
-      <created>1704732807993</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1704732807993</updated>
-    </task>
-    <task id="LOCAL-00002" summary=".">
-      <option name="closed" value="true" />
-      <created>1704738864750</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1704738864750</updated>
-    </task>
-    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -144,11 +184,5 @@
     <isAutomaticCheckingOnLaunch value="false" />
     <isAutomaticFoundErrors value="true" />
     <isAutomaticFoundErrors value="true" />
-  </component>
-  <component name="VcsManagerConfiguration">
-    <MESSAGE value="Pridany server" />
-    <MESSAGE value="Pridane nacitavanie zo suboru a ukladanie do suboru" />
-    <MESSAGE value="." />
-    <option name="LAST_COMMIT_MESSAGE" value="." />
   </component>
 </project>
