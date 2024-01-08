@@ -192,11 +192,11 @@ void TileMap::Clear() {
 
 string TileMap::Serialize() {
     string output = to_string(_mapSize);
-    output.append("\n" + to_string(_windDirection));
-    output.append("\n" + to_string(_windDuration));
+    output.append(" " + to_string(_windDirection));
+    output.append(" " + to_string(_windDuration));
     for (int y = 0; y < _mapSize; ++y) {
         for (int x = 0; x < _mapSize; ++x) {
-            output.append("\n" + to_string(_map[x][y]._type));
+            output.append(" " + to_string(_map[x][y]._type));
             output.append(" " + to_string(_map[x][y]._fireDuration));
         }
     }
@@ -250,7 +250,7 @@ void TileMap::Deserialize(string& input) {
 
 bool TileMap::SaveToServer(string mapName) {
     if (_socket != nullptr) {
-        _socket->sendData("save " + mapName);
+        _socket->sendData("save " + mapName + " ");
         string output = Serialize();
         _socket->sendData(output);
         return true;
