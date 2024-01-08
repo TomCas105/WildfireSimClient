@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
+#include <strings.h>
 #include <pthread.h>
 #include <sys/socket.h>
 #include <arpa/inet.h>
@@ -52,16 +53,8 @@ void *process_client_data(void *thread_data) {
     return NULL;
 }
 
-void receiveData(struct thread_data data) {
-    struct char_buffer receivedBuffer;
-    char_buffer_init(&receivedBuffer);
-
-    if (active_socket_try_get_read_data(data.my_socket, &receivedBuffer)) {
-        data.clientMap = receivedBuffer.data;
-        printf("Mapa bola prijata!\n");
-    }
-
-    char_buffer_destroy(&receivedBuffer);
+void receiveData(struct thread_data data, struct char_buffer receivedBuffer) {
+    data.clientMap = receivedBuffer.data;
 }
 
 void sendData(struct thread_data data) {
@@ -81,13 +74,35 @@ void consume(struct thread_data data) {
 
         if (active_socket_try_get_read_data(data.my_socket, &receivedBuffer)) {
             if (receivedBuffer.size > 0) {
-                if (receivedBuffer.data == "save") {
-                    receiveData(data);
-                } else if (receivedBuffer.data == "load") {
+                printf("%s", receivedBuffer.data);
+
+                char *selector = (char *) malloc(5);
+                char *receivedData = (char *) malloc(receivedBuffer.size - 5);
+
+                strncpy(selector, receivedBuffer.data, 4);
+                strncpy(receivedData, receivedBuffer.data + 6, receivedBuffer.size - 5);
+
+                if (selector == "save") {
+                    printf("%s", "prijimam data");
+
+                    int index = 0;
+                    while (index < receivedBuffer.size && receivedData[index] != " ") {
+                        index++;
+                    }
+
+                    char *fileName = (char *) malloc(index + 1);
+                    char *map = (char *) malloc(receivedBuffer.size - index - 5);
+
+                    strncpy(map, receivedBuffer.data + 6 + index + 1, receivedBuffer.size - index - 5);
+
+
+                } else if (selector == "load") {
                     sendData(data);
-                } else if (receivedBuffer.data == "exit") {
+                } else if (selector == "exit") {
                     break;
                 }
+
+                free(selector);
             }
         }
 
