@@ -1,6 +1,7 @@
 #ifndef COLOR_HPP
 #define COLOR_HPP
 
+#include <windows.h>
 #include <algorithm>
 #include <iostream>
 #include <list>
@@ -8,7 +9,6 @@
 #include <string>
 #include <type_traits>
 #include <utility>
-#include <windows.h>
 
 namespace hue
 {
