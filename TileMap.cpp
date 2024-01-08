@@ -207,9 +207,13 @@ void TileMap::Deserialize(string& input) {
     Clear();
     istringstream iss(input);
     try {
-        iss >> _mapSize;
-        iss >> _windDirection;
-        iss >> _windDuration;
+        string input;
+        iss >> input;
+        _mapSize = stoi(input);
+        iss >> input;
+        _windDirection = stoi(input);
+        iss >> input;
+        _windDuration = stoi(input);
 
         for (int y = 0; y < _mapSize; ++y) {
             vector<Tile> row1;
@@ -218,8 +222,10 @@ void TileMap::Deserialize(string& input) {
                 int type = 0;
                 int fireDuration = 0;
 
-                iss >> type;
-                iss >> fireDuration;
+                iss >> input;
+                type = stoi(input);
+                iss >> input;
+                fireDuration = stoi(input);
 
                 row1.push_back(Tile{
                                        ._type = type,
@@ -237,6 +243,8 @@ void TileMap::Deserialize(string& input) {
         }
     } catch (exception& e) {
         cerr << "Chyba pri deserializovani." << endl;
+        Clear();
+        empty = true;
     }
 }
 
