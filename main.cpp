@@ -8,7 +8,7 @@ using namespace std;
 
 int main() {
     //Socket init
-    ClientSocket* clientSocket = ClientSocket::createConnection("frios2.fri.uniza.sk", 11889);
+    ClientSocket *clientSocket = ClientSocket::createConnection("frios2.fri.uniza.sk", 11887);
 
     srand(time(nullptr));
 
@@ -30,26 +30,16 @@ int main() {
         cout << "Zadajte velkost mapy: " << endl;
         cin >> mapSize;
         tileMap.MakeNew(mapSize);
-    } else if (command.substr(0, 4) == "load") {
-        bool result = false;
-        if (command.substr(6, 5) == "local") {
-            tileMap.LoadFromFile();
-            result = true;
-        } else if (command.substr(6, 6) == "server"){
-            tileMap.LoadFromServer();
-            result = true;
-        }
-        if (result) {
-            cout << "Mapa nacitana." << endl;
-            getline(cin, command);
-        }
+    } else if (command.substr(0, 10) == "load local") {
+        tileMap.LoadFromFile();
+    } else if (command.substr(0, 11) == "load server") {
+        tileMap.LoadFromServer();
     } else if (command == "end") {
         run = false;
     }
 
     while (run) {
         system("cls");
-        tileMap.Step();
         tileMap.Print();
 
         cout << endl;
@@ -65,7 +55,7 @@ int main() {
             int x, y;
             istringstream iss(command.substr(5));
             if (iss >> x >> y) {
-                if (tileMap.Fire(x-1, y-1)) {
+                if (tileMap.Fire(x - 1, y - 1)) {
                     cout << "Zapal na pozicii: [" << x << ", " << y << "]" << endl;
                 } else {
                     cout << "Tento typ biotopu nemoze horiet" << endl;
@@ -74,34 +64,16 @@ int main() {
                 cout << "Neznamy prikaz" << endl;
             }
             getline(cin, command);
-        } else if (command.substr(0, 4) == "save") {
-            bool result = false;
-            if (command.substr(6, 5) == "local") {
-                tileMap.SaveToFile();
-                result = true;
-            } else if (command.substr(6, 6) == "server"){
-                tileMap.SaveToServer();
-                result = true;
-            }
-            if (result) {
-                cout << "Mapa ulozena." << endl;
-                getline(cin, command);
-            }
-        } else if (command.substr(0, 4) == "load") {
-            bool result = false;
-            if (command.substr(6, 5) == "local") {
-                tileMap.LoadFromFile();
-                result = true;
-            } else if (command.substr(6, 6) == "server"){
-                tileMap.LoadFromServer();
-                result = true;
-            }
-            if (result) {
-                cout << "Mapa nacitana." << endl;
-                getline(cin, command);
-            }
+        } else if (command.substr(0, 10) == "save local") {
+            tileMap.SaveToFile();
+        } else if (command.substr(0, 11) == "save server") {
+            tileMap.SaveToServer();
+        } else if (command.substr(0, 10) == "load local") {
+            tileMap.LoadFromFile();
+        } else if (command.substr(0, 11) == "load server") {
+            tileMap.LoadFromServer();
         } else {
-            cout << "Neznamy prikaz" << endl;
+            tileMap.Step();
         }
     }
 

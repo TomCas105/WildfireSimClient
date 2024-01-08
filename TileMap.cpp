@@ -261,6 +261,7 @@ bool TileMap::LoadFromServer() {
     if (_socket != nullptr) {
         _socket->sendData("load");
         string output = _socket->receiveData();
+        cout << output;
         Deserialize(output);
     }
     return false;
