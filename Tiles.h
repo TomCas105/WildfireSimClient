@@ -7,8 +7,6 @@
 #include <vector>
 #include <synchapi.h>
 
-using namespace std;
-
 #ifndef WILDFIRESIMULATOR_TILES_H
 #define WILDFIRESIMULATOR_TILES_H
 
@@ -30,7 +28,7 @@ private:
     double _fireWind;
     double _fireNoWind;
     double _fireAgainstWind;
-    vector<TileTransformation> _transforms;
+    std::vector<TileTransformation> _transforms;
 public:
     TileType();
 

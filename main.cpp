@@ -1,8 +1,8 @@
+
 #include <iostream>
 #include <fstream>
 #include <sstream>
-//#include "TileMap.h"
-//#include "ClientSocket.h"
+#include "TileMap.h"
 
 using namespace std;
 
@@ -20,14 +20,19 @@ int main() {
     //ClientSocket* clientSocket = ClientSocket::createConnection("frios2.fri.uniza.sk", 11889);
 
     //Map init
-    //TileMap tileMap;
+    TileMap tileMap;
 
-    //tileMap.MakeNew(mapSize);
+    tileMap.MakeNew(mapSize);
 
     bool run = true;
 
     while (run) {
         system("cls");
+        tileMap.Step();
+        tileMap.Print();
+
+        cout << endl;
+
         string command;
         cout <<
              "*ENTER* krok simulacie, [fire] [x] [y] zapalenie biotopu, [save] ulozi mapu do suboru, [load] nacita mapu zo suboru, [end] ukonci"
@@ -41,7 +46,7 @@ int main() {
             int x, y;
             istringstream iss(command.substr(5));
             if (iss >> x >> y) {
-                if (/*tileMap.Fire(x, y)*/true) {
+                if (tileMap.Fire(x-1, y-1)) {
                     cout << "Zapal na pozicii: [" << x << ", " << y << "]" << endl;
                 } else {
                     cout << "Tento typ biotopu nemoze horiet" << endl;
@@ -49,6 +54,7 @@ int main() {
             } else {
                 cout << "Neznamy prikaz" << endl;
             }
+            getline(cin, command);
         } else if (command == "save") {
             // TODO ulozenie mapy
             ofstream file("data.txt");
@@ -73,10 +79,6 @@ int main() {
         } else {
             cout << "Neznamy prikaz" << endl;
         }
-        cout << endl << endl << endl;
-
-        //tileMap.Step();
-        //tileMap.Print();
     }
 
     //delete clientSocket;

@@ -3,6 +3,9 @@
 //
 
 #include "TileMap.h"
+#include "color.hpp"
+
+using namespace std;
 
 TileMap::TileMap() {
     empty = true;
@@ -17,10 +20,18 @@ TileMap::TileMap() {
 }
 
 TileMap::~TileMap() {
-    Clear();
 }
 
 void TileMap::Step() {
+
+    //buffering
+    for (int y = 0; y < _mapSize; y++) {
+        for (int x = 0; x < _mapSize; x++) {
+            _mapBuffer[x][y]._type = _map[x][y]._type;
+            _mapBuffer[x][y]._fireDuration = _map[x][y]._fireDuration;
+        }
+    }
+
     //zmena vetra
     if (_windDuration != 0) {
         double p = (double) rand() / RAND_MAX;
@@ -71,62 +82,63 @@ void TileMap::Step() {
             _map[x][y]._fireDuration = fireDuration;
         }
     }
-
-    //buffering
-    for (int y = 0; y < _mapSize; y++) {
-        for (int x = 0; x < _mapSize; x++) {
-            _mapBuffer[x][y]._type = _map[x][y]._type;
-            _mapBuffer[x][y]._fireDuration = _map[x][y]._fireDuration;
-        }
-    }
 }
 
 void TileMap::Print() {
-    for (int y = 0; y < _mapSize; y++) {
+    for (int y = _mapSize - 1; y >= 0; y--) {
+        printf("%2d ", y+1);
         for (int x = 0; x < _mapSize; x++) {
             switch (_map[x][y]._type) {
                 case 0:
                     if (_map[x][y]._fireDuration > 0) {
-                        //cout << dye::colorize("B", "red").invert();
+                        cout << dye::colorize("B", "red").invert();
                     } else {
-                        //cout << dye::light_red("B");
+                        cout << dye::light_red("B");
                     }
                     break;
                 case 1:
                     if (_map[x][y]._fireDuration > 0) {
-                        //cout << dye::colorize("F", "red").invert();
+                        cout << dye::colorize("F", "red").invert();
                     } else {
-                        //cout << dye::green("F");
+                        cout << dye::green("F");
                     }
                     break;
                 case 2:
                     if (_map[x][y]._fireDuration > 0) {
-                        //cout << dye::colorize("G", "red").invert();
+                        cout << dye::colorize("G", "red").invert();
                     } else {
-                        //cout << dye::light_green("G");
+                        cout << dye::light_green("G");
                     }
                     break;
                 case 3:
-                    //cout << dye::grey("R");
+                    cout << dye::grey("R");
                     break;
                 default:
-                    //cout << dye::blue("W");
+                    cout << dye::blue("W");
                     break;
             }
-            cout << "   ";
+            cout << "  ";
         }
-        cout << endl << endl;
+        cout << endl;
     }
+    cout << " 0";
+    for (int x = 0; x < _mapSize; x++) {
+        printf("%2d ", x+1);
+    }
+    cout << endl;
     cout << "Vietor: "
          << (_windDirection == 0 ? "Sever" :
              _windDirection == 1 ? "Vychod" :
              _windDirection == 2 ? "Juh" :
              _windDirection == 3 ? "Zapad" :
-             "Bezvetrie");
+             "Bezvetrie") << endl;
 
 }
 
 bool TileMap::Fire(int pX, int pY) {
+    if (pX < 0 || pX >= _mapSize || pY < 0 || pY >= _mapSize) {
+        return false;
+    }
     if (_tileTypes[_map[pX][pY]._type].Flammable()) {
         _map[pX][pY]._fireDuration = 3;
         return true;
@@ -145,7 +157,7 @@ void TileMap::MakeNew(int pMapSize) {
         vector<Tile> row1;
         vector<Tile> row2;
         for (int x = 0; x < _mapSize; ++x) {
-            int type = rand() % 5;
+            int type = 1 + rand() % 4;
             row1.push_back(Tile{
                                    ._type = type,
                                    ._fireDuration = 0

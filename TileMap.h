@@ -1,24 +1,24 @@
 //
 // Created by tomas on 8. 1. 2024.
 //
-#pragma once
 #include <iostream>
+#include <fstream>
+#include <sstream>
 #include "Tiles.h"
-//include "color.hpp"
+#include <windows.h>
+#include "ClientSocket.h"
 
 #ifndef WILDFIRESIMULATOR_TILEMAP_H
 #define WILDFIRESIMULATOR_TILEMAP_H
 
-using namespace std;
-
 class TileMap {
 private:
-    vector<vector<Tile>> _map;
-    vector<vector<Tile>> _mapBuffer;
+    std::vector<std::vector<Tile>> _map;
+    std::vector<std::vector<Tile>> _mapBuffer;
     int _mapSize;
     int _windDirection;
     int _windDuration;
-    vector<TileType> _tileTypes;
+    std::vector<TileType> _tileTypes;
 public:
     bool empty;
     TileMap();

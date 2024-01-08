@@ -7,7 +7,8 @@ add_executable(WildfireSimulator main.cpp
         Tiles.cpp
         Tiles.h
         color.hpp
-        ClientSocket.cpp
-        ClientSocket.h
         TileMap.cpp
-        TileMap.h)
+        TileMap.h
+        ClientSocket.cpp)
+
+target_link_libraries(WildfireSimulator wsock32 ws2_32)
