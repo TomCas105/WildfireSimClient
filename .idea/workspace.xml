@@ -20,11 +20,8 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d19a49e3-219e-42e3-abef-4ad3800b4a1b" name="Changes" comment="Oprava projektu">
-      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TileMap.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/TileMap.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-Debug-log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-Debug-log.txt" afterDir="false" />
+    <list default="true" id="d19a49e3-219e-42e3-abef-4ad3800b4a1b" name="Changes" comment="Oprava deserializacie">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -95,7 +92,7 @@
       <workItem from="1704735262990" duration="648000" />
       <workItem from="1704743718496" duration="20000" />
       <workItem from="1704744829315" duration="1055000" />
-      <workItem from="1704746011443" duration="679000" />
+      <workItem from="1704746011443" duration="710000" />
     </task>
     <task id="LOCAL-00001" summary="Oprava projektu">
       <option name="closed" value="true" />
@@ -121,7 +118,15 @@
       <option name="project" value="LOCAL" />
       <updated>1704745716384</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Oprava deserializacie">
+      <option name="closed" value="true" />
+      <created>1704746707343</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1704746707343</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -139,6 +144,7 @@
     </ignored-roots>
     <MESSAGE value="." />
     <MESSAGE value="Oprava projektu" />
-    <option name="LAST_COMMIT_MESSAGE" value="Oprava projektu" />
+    <MESSAGE value="Oprava deserializacie" />
+    <option name="LAST_COMMIT_MESSAGE" value="Oprava deserializacie" />
   </component>
 </project>
