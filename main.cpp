@@ -22,13 +22,16 @@ int main() {
 
     bool run = true;
 
+    getline(cin, command);
+    cin.clear();
+
     if (command == "new") {
         int mapSize = 10;
         cout << "Zadajte velkost mapy: " << endl;
         cin >> mapSize;
         tileMap.MakeNew(mapSize);
-    } else if (command == "load") {
-        tileMap.LoadFromFile("a.txt");
+    } else if (command.substr(0, 4) == "load") {
+        tileMap.LoadFromFile(command.substr(6) + ".txt");
     } else if (command == "end") {
         run = false;
     }
