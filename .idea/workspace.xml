@@ -20,10 +20,25 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="01fbd190-ae2a-4351-8d0e-127dc179d252" name="Changes" comment="">
+    <list default="true" id="01fbd190-ae2a-4351-8d0e-127dc179d252" name="Changes" comment="Pridane nacitavanie zo suboru a ukladanie do suboru">
+      <change afterPath="$PROJECT_DIR$/Server/cmake-build-debug/Makefile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Server/cmake-build-debug/WildfireServer.cbp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/deployment.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/deployment.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-Debug-log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-Debug-log.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/TileMap.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Client/TileMap.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/TileMap.h" beforeDir="false" afterPath="$PROJECT_DIR$/Client/TileMap.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Client/main.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/cmake-build-debug/.cmake/api/v1/reply/cmakeFiles-v1-d819042c54a1d82e397a.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/cmake-build-debug/.cmake/api/v1/reply/index-2024-01-08T16-52-43-0031.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/cmake-build-debug/CMakeFiles/3.26.4/CMakeDetermineCompilerABI_C.bin" beforeDir="false" afterPath="$PROJECT_DIR$/Server/cmake-build-debug/CMakeFiles/3.26.4/CMakeDetermineCompilerABI_C.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/cmake-build-debug/CMakeFiles/3.26.4/CompilerIdC/a.exe" beforeDir="false" afterPath="$PROJECT_DIR$/Server/cmake-build-debug/CMakeFiles/3.26.4/CompilerIdC/a.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/cmake-build-debug/CMakeFiles/CMakeConfigureLog.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/Server/cmake-build-debug/CMakeFiles/CMakeConfigureLog.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/cmake-build-debug/CMakeFiles/WildfireServer.dir/pos_sockets/char_buffer.c.obj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/cmake-build-debug/CMakeFiles/clion-Debug-log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Server/cmake-build-debug/CMakeFiles/clion-Debug-log.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/cmake-build-debug/Testing/Temporary/LastTest.log" beforeDir="false" afterPath="$PROJECT_DIR$/Server/cmake-build-debug/Testing/Temporary/LastTest.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/cmake-build-debug/build.ninja" beforeDir="false" afterPath="$PROJECT_DIR$/Server/cmake-build-debug/build.ninja" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,6 +79,7 @@
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
+    "settings.editor.selected.configurable": "CPPToolchains",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -75,40 +91,25 @@
       <recent name="E:\CLionProjects\WildfireSimulator\Server" />
     </key>
   </component>
-  <component name="RunManager">
-    <configuration name="WildfireServer" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="WildfireServer" TARGET_NAME="WildfireServer" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="WildfireServer" RUN_TARGET_NAME="WildfireServer">
+  <component name="RunManager" selected="CMake Application.WildfireServer">
+    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="WildfireClient" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="WildfireClient" TARGET_NAME="WildfireClient" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="WildfireClient" RUN_TARGET_NAME="WildfireClient">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
+    <configuration name="WildfireServer" type="CMakeRunConfiguration" factoryName="Application" singleton="false" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="true" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="WildfireClient" TARGET_NAME="WildfireServer" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="WildfireClient" RUN_TARGET_NAME="WildfireServer">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="CMake Application.WildfireServer" />
+      <item itemvalue="CMake Application.WildfireClient" />
+    </list>
   </component>
-  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
-  <component name="TaskManager">
-    <task active="true" id="Default" summary="Default task">
-      <changelist id="01fbd190-ae2a-4351-8d0e-127dc179d252" name="Changes" comment="" />
-      <created>1704731074989</created>
-      <option name="number" value="Default" />
-      <option name="presentableId" value="Default" />
-      <updated>1704731074989</updated>
-      <workItem from="1704731076834" duration="40000" />
-      <workItem from="1704731650420" duration="13000" />
-      <workItem from="1704732039471" duration="249000" />
-      <workItem from="1704732329402" duration="431000" />
-    </task>
-    <servers />
-  </component>
-  <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="3" />
-  </component>
-  <component name="VCPKGProject">
-    <isAutomaticEditVcpkgJson value="false" />
-    <isAutomaticCheckingOnLaunch value="false" />
-    <isAutomaticFoundErrors value="true" />
-    <isAutomaticFoundErrors value="true" />
-  </component>
-</project>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionarie

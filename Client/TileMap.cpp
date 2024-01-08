@@ -22,6 +22,7 @@ TileMap::TileMap(ClientSocket *pSocket) {
 
 TileMap::~TileMap() {
     if (_socket != nullptr) {
+        _socket->sendData("exit");
         _socket->sendEndMessage();
     }
 }
@@ -203,20 +204,45 @@ string TileMap::Serialize() {
 }
 
 void TileMap::Deserialize(string& input) {
-    string output = to_string(_mapSize);
-    output.append("\n" + to_string(_windDirection));
-    output.append("\n" + to_string(_windDuration));
-    for (int y = 0; y < _mapSize; ++y) {
-        for (int x = 0; x < _mapSize; ++x) {
-            output.append("\n" + to_string(_map[x][y]._type));
-            output.append(" " + to_string(_map[x][y]._fireDuration));
+    Clear();
+    istringstream iss(input);
+    try {
+        iss >> _mapSize;
+        iss >> _windDirection;
+        iss >> _windDuration;
+
+        for (int y = 0; y < _mapSize; ++y) {
+            vector<Tile> row1;
+            vector<Tile> row2;
+            for (int x = 0; x < _mapSize; ++x) {
+                int type = 0;
+                int fireDuration = 0;
+
+                iss >> type;
+                iss >> fireDuration;
+
+                row1.push_back(Tile{
+                                       ._type = type,
+                                       ._fireDuration = fireDuration
+                               }
+                );
+                row2.push_back(Tile{
+                                       ._type = type,
+                                       ._fireDuration = fireDuration
+                               }
+                );
+            }
+            _map.push_back(row1);
+            _mapLast.push_back(row2);
         }
+    } catch (exception& e) {
+        cerr << "Chyba pri deserializovani." << endl;
     }
 }
 
-bool TileMap::SaveToServer() {
+bool TileMap::SaveToServer(string mapName) {
     if (_socket != nullptr) {
-        _socket->sendData("save");
+        _socket->sendData("save " + mapName);
         string output = Serialize();
         _socket->sendData(output);
         return true;
@@ -224,11 +250,28 @@ bool TileMap::SaveToServer() {
     return false;
 }
 
-bool TileMap::LoadFromServer() {
+bool TileMap::LoadFromServer(string mapName) {
     if (_socket != nullptr) {
-        _socket->sendData("load");
+        _socket->sendData("load " + mapName);
         string output = _socket->receiveData();
         Deserialize(output);
     }
+    return false;
+}
+
+void TileMap::SaveToFile(string mapName) {
+    ofstream output(mapName);
+    output << Serialize();
+    output.close();
+}
+
+bool TileMap::LoadFromFile(string mapName) {
+    ifstream input(mapName);
+    string inputString;
+
+    while (getline(input, inputString));
+
+    Deserialize(inputString);
+
     return false;
 }

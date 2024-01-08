@@ -17,7 +17,7 @@ int main() {
 
     string command;
     cout <<
-         "[new] pre vytvorenie novej mapy, [load] pre nacitanie mapy, [end] ukonci"
+         "new - vytvorenie novej mapy\nload [nazov mapy] - nacitanie mapy\nend - ukonci"
          << endl;
 
     bool run = true;
@@ -28,7 +28,7 @@ int main() {
         cin >> mapSize;
         tileMap.MakeNew(mapSize);
     } else if (command == "load") {
-        tileMap.LoadFromServer();
+        tileMap.LoadFromFile("a.txt");
     } else if (command == "end") {
         run = false;
     }
@@ -40,7 +40,7 @@ int main() {
 
         cout << endl;
         cout <<
-             "*ENTER* krok simulacie, [fire] [x] [y] zapalenie biotopu, [save] ulozi mapu, [load] nacita mapu, [end] ukonci"
+             "*ENTER* - krok simulacie\nfire [x] [y] - zapalenie biotopu\nsave [nazov] - ulozi mapu\nload [nazov] - nacita mapu\nend - ukonci"
              << endl;
 
         getline(cin, command);
@@ -60,10 +60,10 @@ int main() {
                 cout << "Neznamy prikaz" << endl;
             }
             getline(cin, command);
-        } else if (command == "save") {
-            tileMap.SaveToServer();
-        } else if (command == "load") {
-            tileMap.LoadFromServer();
+        } else if (command.substr(0, 4) == "save") {
+            tileMap.SaveToServer(command.substr(5));
+        } else if (command.substr(0, 4) == "load") {
+            tileMap.LoadFromServer(command.substr(5));
         } else {
             cout << "Neznamy prikaz" << endl;
         }

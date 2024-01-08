@@ -39,10 +39,10 @@ public:
     void Step();
     void Print();
     bool Fire(int pX, int pY);
-    bool LoadFromServer();
-    bool SaveToServer();
-    bool LoadFromFile();
-    bool SaveToFile();
+    bool LoadFromServer(std::string mapName);
+    bool SaveToServer(std::string mapName);
+    bool LoadFromFile(std::string mapName);
+    void SaveToFile(std::string mapName);
     void Clear();
 
     std::string Serialize();
