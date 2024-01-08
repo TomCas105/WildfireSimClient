@@ -203,7 +203,7 @@ string TileMap::Serialize() {
     return output;
 }
 
-void TileMap::Deserialize(string& input) {
+void TileMap::Deserialize(string &input) {
     Clear();
     istringstream iss(input);
     try {
@@ -241,45 +241,48 @@ void TileMap::Deserialize(string& input) {
             _map.push_back(row1);
             _mapLast.push_back(row2);
         }
-    } catch (exception& e) {
+    } catch (exception &e) {
         cerr << "Chyba pri deserializovani." << endl;
         Clear();
         empty = true;
     }
 }
 
-bool TileMap::SaveToServer(string mapName) {
+bool TileMap::SaveToServer() {
     if (_socket != nullptr) {
-        _socket->sendData("save " + mapName + " ");
-        string output = Serialize();
+        string output = "save " + Serialize();
         _socket->sendData(output);
         return true;
     }
     return false;
 }
 
-bool TileMap::LoadFromServer(string mapName) {
+bool TileMap::LoadFromServer() {
     if (_socket != nullptr) {
-        _socket->sendData("load " + mapName);
+        _socket->sendData("load");
         string output = _socket->receiveData();
         Deserialize(output);
     }
     return false;
 }
 
-void TileMap::SaveToFile(string mapName) {
-    ofstream output(mapName);
+void TileMap::SaveToFile() {
+    ofstream output("data.txt");
     output << Serialize();
     output.close();
 }
 
-bool TileMap::LoadFromFile(string mapName) {
-    ifstream input(mapName);
+bool TileMap::LoadFromFile() {
+    ifstream input("data.txt");
+
+    if (!input.is_open()) {
+        return false;
+    }
+
     string inputString;
 
     while (getline(input, inputString));
 
     Deserialize(inputString);
-
-    return false;
+    return true;
 }

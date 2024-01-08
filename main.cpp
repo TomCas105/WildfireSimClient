@@ -17,7 +17,7 @@ int main() {
 
     string command;
     cout <<
-         "new - vytvorenie novej mapy\nload [nazov mapy] - nacitanie mapy\nend - ukonci"
+         "new - vytvorenie novej mapy\nload [local/server] - nacitanie mapy\nend - ukonci"
          << endl;
 
     bool run = true;
@@ -33,10 +33,10 @@ int main() {
     } else if (command.substr(0, 4) == "load") {
         bool result = false;
         if (command.substr(6, 5) == "local") {
-            tileMap.LoadFromFile(command.substr(12));
+            tileMap.LoadFromFile();
             result = true;
         } else if (command.substr(6, 6) == "server"){
-            tileMap.LoadFromServer(command.substr(13));
+            tileMap.LoadFromServer();
             result = true;
         }
         if (result) {
@@ -54,7 +54,7 @@ int main() {
 
         cout << endl;
         cout <<
-             "*ENTER* - krok simulacie\nfire [x] [y] - zapalenie biotopu\nsave [local/server] [nazov] - ulozi mapu\nload [local/server] [nazov] - nacita mapu\nend - ukonci"
+             "*ENTER* - krok simulacie\nfire [x] [y] - zapalenie biotopu\nsave [local/server] - ulozi mapu\nload [local/server] - nacita mapu\nend - ukonci"
              << endl;
 
         getline(cin, command);
@@ -77,10 +77,10 @@ int main() {
         } else if (command.substr(0, 4) == "save") {
             bool result = false;
             if (command.substr(6, 5) == "local") {
-                tileMap.SaveToFile(command.substr(12));
+                tileMap.SaveToFile();
                 result = true;
             } else if (command.substr(6, 6) == "server"){
-                tileMap.SaveToServer(command.substr(13));
+                tileMap.SaveToServer();
                 result = true;
             }
             if (result) {
@@ -90,10 +90,10 @@ int main() {
         } else if (command.substr(0, 4) == "load") {
             bool result = false;
             if (command.substr(6, 5) == "local") {
-                tileMap.LoadFromFile(command.substr(12));
+                tileMap.LoadFromFile();
                 result = true;
             } else if (command.substr(6, 6) == "server"){
-                tileMap.LoadFromServer(command.substr(13));
+                tileMap.LoadFromServer();
                 result = true;
             }
             if (result) {
