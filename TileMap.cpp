@@ -28,7 +28,7 @@ TileMap::~TileMap() {
 }
 
 void TileMap::Step() {
-
+    std::unique_lock<std::mutex> lock(_mutex);
     //buffering
     for (int y = 0; y < _mapSize; y++) {
         for (int x = 0; x < _mapSize; x++) {
@@ -87,6 +87,7 @@ void TileMap::Step() {
             _map[x][y]._fireDuration = fireDuration;
         }
     }
+    _waitStep.notify_all();
 }
 
 void TileMap::Print() {
@@ -249,21 +250,26 @@ void TileMap::Deserialize(string &input) {
 }
 
 bool TileMap::SaveToServer() {
+    std::unique_lock<std::mutex> lock(_mutex);
     if (_socket != nullptr) {
         string output = "save " + Serialize();
         _socket->sendData(output);
+        _waitSave.notify_all();
         return true;
     }
+    _waitSave.notify_all();
     return false;
 }
 
 bool TileMap::LoadFromServer() {
+    std::unique_lock<std::mutex> lock(_mutex);
     if (_socket != nullptr) {
         _socket->sendData("load");
         string output = _socket->receiveData();
         cout << output;
         Deserialize(output);
     }
+    _waitLoad.notify_all();
     return false;
 }
 

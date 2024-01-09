@@ -7,8 +7,6 @@ add_executable(WildfireSimClient main.cpp
         Tiles.cpp
         Tiles.h
         color.hpp
-        TileMap.cpp
-        TileMap.h
         ClientSocket.cpp
         ClientSocket.h
 )
