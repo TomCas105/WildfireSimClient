@@ -396,6 +396,7 @@ int main() {
         int mapSize = 0;
         cout << "Zadajte velkost mapy: " << endl;
         cin >> mapSize;
+        map._mapSize = mapSize;
         for (int y = 0; y < map._mapSize; ++y) {
             vector<Tile> row1;
             vector<Tile> row2;
