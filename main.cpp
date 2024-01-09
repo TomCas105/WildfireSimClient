@@ -382,7 +382,7 @@ int main() {
     };
 
     //Socket init
-    map.clientSocket = ClientSocket::createConnection("frios2.fri.uniza.sk", 11887);
+    map.clientSocket = ClientSocket::createConnection("frios2.fri.uniza.sk", 11889);
 
     string command;
     cout <<
