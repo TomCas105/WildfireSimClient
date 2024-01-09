@@ -4,7 +4,6 @@
 #include <pthread.h>
 #include <unistd.h>
 #include "Tiles.h"
-//#include "TileMap.h"
 #include "color.hpp"
 #include "ClientSocket.h"
 
@@ -18,8 +17,7 @@ struct Map {
     int _windDuration;
     std::vector<TileType> _tileTypes;
     bool simulationEnd;
-    bool simulationPaused;
-
+    ClientSocket *clientSocket;
     pthread_mutex_t mutex;
 };
 
@@ -150,142 +148,63 @@ void* step(void* arg) {
     return nullptr;
 }
 
-void* autoLocalSave(void* arg) {
-    Map &map = *static_cast<Map *>(arg);
+void loadMapFromFile(const std::string& filename, Map& map) {
+    ifstream input(filename);
+    if (!input.is_open()) {
+        cout << "Chyba pri nacitavani lokalneho suboru";
+        return;
+    }
 
-    while (!map.simulationEnd) {
-        pthread_mutex_lock(&map.mutex);
-        ofstream oOutput("data.txt");
-        string output = to_string(map._mapSize);
-        output.append(" " + to_string(map._windDirection));
-        output.append(" " + to_string(map._windDuration));
+    string inputString;
+    while (getline(input, inputString));
+
+    if (!map._map.empty()) {
         for (int y = 0; y < map._mapSize; ++y) {
-            for (int x = 0; x < map._mapSize; ++x) {
-                output.append(" " + to_string(map._map[x][y]._type));
-                output.append(" " + to_string(map._map[x][y]._fireDuration));
-            }
-        }
-        oOutput << output;
-        oOutput.close();
-        pthread_mutex_unlock(&map.mutex);
-        usleep(30000000);
-    }
-    return nullptr;
-}
-
-
-void* getCommand(void* arg) {
-    Map &map = *static_cast<Map *>(arg);
-
-    while (!map.simulationEnd) {
-        usleep(1000000);
-        // Overenie, či užívateľ stlačil Enter
-        if (std::cin.peek() == '\n') {
-            std::cin.ignore(); // Ignoruje stlačený Enter
-
-            pthread_mutex_lock(&map.mutex);
-            system("cls");
-            string command;
-
-            cout << endl;
-            cout <<
-                 "*ENTER* - krok simulacie\nfire [x] [y] - zapalenie biotopu\nsave [local/server] - ulozi mapu\nload [local/server] - nacita mapu\nend - ukonci"
-                 << endl;
-
-            getline(cin, command);
-            cin.clear();
-            if (command == "end") {
-                map.simulationEnd = true;
-            } else if (command.substr(0, 4) == "fire") {
-                  int x, y;
-                  istringstream iss(command.substr(5));
-                  if (iss >> x >> y) {
-                      if (x - 1 < 0 || x - 1 >= map._mapSize || y - 1 < 0 || y - 1 >= map._mapSize) {
-                          cout << "Tento typ biotopu nemoze horiet" << endl;
-                      } else if (map._tileTypes[map._map[x - 1][y - 1]._type].Flammable()) {
-                          map._map[x - 1][y - 1]._fireDuration = 3;
-                          cout << "Zapal na pozicii: [" << x << ", " << y << "]" << endl;
-                      } else {
-                          cout << "Tento typ biotopu nemoze horiet" << endl;
-                      }
-                  } else {
-                      cout << "Neznamy prikaz" << endl;
-                 }
-                  getline(cin, command);
-            } else if (command.substr(0, 10) == "save local") {
-                //tileMap.SaveToFile();                                          TODO
-            } else if (command.substr(0, 11) == "save server") {
-                //tileMap.SaveToServer();
-            } else if (command.substr(0, 10) == "load local") {
-                //tileMap.LoadFromFile();
-            } else if (command.substr(0, 11) == "load server") {
-                // tileMap.LoadFromServer();
-            }
-            pthread_mutex_unlock(&map.mutex);
+            map._map[y].clear();
+            map._mapLast[y].clear();
         }
     }
-    return nullptr;
-}
+    map._map.clear();
+    map._mapLast.clear();
 
+    istringstream iss(inputString);
+    try {
+        string input;
+        iss >> input;
+        map._mapSize = stoi(input);
+        iss >> input;
+        map._windDirection = stoi(input);
+        iss >> input;
+        map._windDuration = stoi(input);
 
-int main() {
-    srand(time(nullptr));
-    Map map = {
-            ._mapSize = 10,
-            ._windDirection = 0,
-            ._windDuration = 0,
-            .simulationEnd = false,
-            .simulationPaused = false,
-    };
-
-    //Socket init
-    ClientSocket *clientSocket = ClientSocket::createConnection("frios2.fri.uniza.sk", 11887);
-
-    srand(time(nullptr));
-
-    //Map init
-    //TileMap tileMap(clientSocket);
-
-    string command;
-    cout <<
-         "new - vytvorenie novej mapy\nload [local/server] - nacitanie mapy\nend - ukonci"
-         << endl;
-
-    getline(cin, command);
-    cin.clear();
-
-    if (command == "new") {
-        int mapSize = 0;
-        cout << "Zadajte velkost mapy: " << endl;
-        cin >> mapSize;
         for (int y = 0; y < map._mapSize; ++y) {
             vector<Tile> row1;
             vector<Tile> row2;
             for (int x = 0; x < map._mapSize; ++x) {
-                int type = 1 + rand() % 4;
+                int type = 0;
+                int fireDuration = 0;
+
+                iss >> input;
+                type = stoi(input);
+                iss >> input;
+                fireDuration = stoi(input);
+
                 row1.push_back(Tile{
                                        ._type = type,
-                                       ._fireDuration = 0
+                                       ._fireDuration = fireDuration
                                }
                 );
                 row2.push_back(Tile{
                                        ._type = type,
-                                       ._fireDuration = 0
+                                       ._fireDuration = fireDuration
                                }
                 );
             }
             map._map.push_back(row1);
             map._mapLast.push_back(row2);
         }
-    } else if (command.substr(0, 10) == "load local") {
-        ifstream input("data.txt");
-        if (!input.is_open()) {
-            cout << "Chyba pri nacitavani lokalneho suboru";
-            return -1;
-        }
-        string inputString;
-        while (getline(input, inputString));
-
+    } catch (exception &e) {
+        cerr << "Chyba pri deserializovani." << endl;
         if (!map._map.empty()) {
             for (int y = 0; y < map._mapSize; ++y) {
                 map._map[y].clear();
@@ -294,8 +213,15 @@ int main() {
         }
         map._map.clear();
         map._mapLast.clear();
+    }
+}
 
-        istringstream iss(inputString);
+void loadMapFromServer(Map& map) {
+    if (map.clientSocket != nullptr) {
+        map.clientSocket->sendData("load");
+        string output = map.clientSocket->receiveData();
+        cout << output;
+        istringstream iss(output);
         try {
             string input;
             iss >> input;
@@ -342,59 +268,157 @@ int main() {
             map._map.clear();
             map._mapLast.clear();
         }
-    } else if (command.substr(0, 11) == "load server") {
-        if (clientSocket != nullptr) {
-            clientSocket->sendData("load");
-            string output = clientSocket->receiveData();
-            cout << output;
-            istringstream iss(output);
-            try {
-                string input;
-                iss >> input;
-                map._mapSize = stoi(input);
-                iss >> input;
-                map._windDirection = stoi(input);
-                iss >> input;
-                map._windDuration = stoi(input);
+    }
+}
 
-                for (int y = 0; y < map._mapSize; ++y) {
-                    vector<Tile> row1;
-                    vector<Tile> row2;
-                    for (int x = 0; x < map._mapSize; ++x) {
-                        int type = 0;
-                        int fireDuration = 0;
+void* autoLocalSave(void* arg) {
+    Map &map = *static_cast<Map *>(arg);
 
-                        iss >> input;
-                        type = stoi(input);
-                        iss >> input;
-                        fireDuration = stoi(input);
-
-                        row1.push_back(Tile{
-                                               ._type = type,
-                                               ._fireDuration = fireDuration
-                                       }
-                        );
-                        row2.push_back(Tile{
-                                               ._type = type,
-                                               ._fireDuration = fireDuration
-                                       }
-                        );
-                    }
-                    map._map.push_back(row1);
-                    map._mapLast.push_back(row2);
-                }
-            } catch (exception &e) {
-                cerr << "Chyba pri deserializovani." << endl;
-                if (!map._map.empty()) {
-                    for (int y = 0; y < map._mapSize; ++y) {
-                        map._map[y].clear();
-                        map._mapLast[y].clear();
-                    }
-                }
-                map._map.clear();
-                map._mapLast.clear();
+    while (!map.simulationEnd) {
+        pthread_mutex_lock(&map.mutex);
+        ofstream oOutput("data.txt");
+        string output = to_string(map._mapSize);
+        output.append(" " + to_string(map._windDirection));
+        output.append(" " + to_string(map._windDuration));
+        for (int y = 0; y < map._mapSize; ++y) {
+            for (int x = 0; x < map._mapSize; ++x) {
+                output.append(" " + to_string(map._map[x][y]._type));
+                output.append(" " + to_string(map._map[x][y]._fireDuration));
             }
         }
+        oOutput << output;
+        oOutput.close();
+        pthread_mutex_unlock(&map.mutex);
+        usleep(30000000);
+    }
+    return nullptr;
+}
+
+void* getCommand(void* arg) {
+    Map &map = *static_cast<Map *>(arg);
+
+    while (!map.simulationEnd) {
+        usleep(1000000);
+        // Overenie, či užívateľ stlačil Enter
+        if (std::cin.peek() == '\n') {
+            std::cin.ignore(); // Ignoruje stlačený Enter
+
+            pthread_mutex_lock(&map.mutex);
+            system("cls");
+            string command;
+
+            cout << endl;
+            cout <<
+                 "*ENTER* - krok simulacie\nfire [x] [y] - zapalenie biotopu\nsave [local/server] - ulozi mapu\nload [local/server] - nacita mapu\nend - ukonci"
+                 << endl;
+
+            getline(cin, command);
+            cin.clear();
+            if (command == "end") {
+                map.simulationEnd = true;
+            } else if (command.substr(0, 4) == "fire") {
+                  int x, y;
+                  istringstream iss(command.substr(5));
+                  if (iss >> x >> y) {
+                      if (x - 1 < 0 || x - 1 >= map._mapSize || y - 1 < 0 || y - 1 >= map._mapSize) {
+                          cout << "Tento typ biotopu nemoze horiet" << endl;
+                      } else if (map._tileTypes[map._map[x - 1][y - 1]._type].Flammable()) {
+                          map._map[x - 1][y - 1]._fireDuration = 3;
+                          cout << "Zapal na pozicii: [" << x << ", " << y << "]" << endl;
+                      } else {
+                          cout << "Tento typ biotopu nemoze horiet" << endl;
+                      }
+                  } else {
+                      cout << "Neznamy prikaz" << endl;
+                 }
+                  getline(cin, command);
+            } else if (command.substr(0, 10) == "save local") {
+                ofstream oOutput("data.txt");
+                string output = to_string(map._mapSize);
+                output.append(" " + to_string(map._windDirection));
+                output.append(" " + to_string(map._windDuration));
+                for (int y = 0; y < map._mapSize; ++y) {
+                    for (int x = 0; x < map._mapSize; ++x) {
+                        output.append(" " + to_string(map._map[x][y]._type));
+                        output.append(" " + to_string(map._map[x][y]._fireDuration));
+                    }
+                }
+                oOutput << output;
+                oOutput.close();
+                cout << "Data ulozene lokalne!" << endl;
+            } else if (command.substr(0, 11) == "save server") {
+                if (map.clientSocket != nullptr) {
+                    string oOutput = to_string(map._mapSize);
+                    oOutput.append(" " + to_string(map._windDirection));
+                    oOutput.append(" " + to_string(map._windDuration));
+                    for (int y = 0; y < map._mapSize; ++y) {
+                        for (int x = 0; x < map._mapSize; ++x) {
+                            oOutput.append(" " + to_string(map._map[x][y]._type));
+                            oOutput.append(" " + to_string(map._map[x][y]._fireDuration));
+                        }
+                    }
+                    string output = "save " + oOutput;
+                    map.clientSocket->sendData(output);
+                }
+            } else if (command.substr(0, 10) == "load local") {
+                loadMapFromFile("data.txt", map);
+            } else if (command.substr(0, 11) == "load server") {
+                loadMapFromServer(map);
+            }
+            pthread_mutex_unlock(&map.mutex);
+        }
+    }
+    return nullptr;
+}
+
+
+int main() {
+    srand(time(nullptr));
+    Map map = {
+            ._mapSize = 10,
+            ._windDirection = 0,
+            ._windDuration = 0,
+            .simulationEnd = false,
+    };
+
+    //Socket init
+    map.clientSocket = ClientSocket::createConnection("frios2.fri.uniza.sk", 11887);
+
+    string command;
+    cout <<
+         "new - vytvorenie novej mapy\nload [local/server] - nacitanie mapy\nend - ukonci"
+         << endl;
+
+    getline(cin, command);
+    cin.clear();
+
+    if (command == "new") {
+        int mapSize = 0;
+        cout << "Zadajte velkost mapy: " << endl;
+        cin >> mapSize;
+        for (int y = 0; y < map._mapSize; ++y) {
+            vector<Tile> row1;
+            vector<Tile> row2;
+            for (int x = 0; x < map._mapSize; ++x) {
+                int type = 1 + rand() % 4;
+                row1.push_back(Tile{
+                                       ._type = type,
+                                       ._fireDuration = 0
+                               }
+                );
+                row2.push_back(Tile{
+                                       ._type = type,
+                                       ._fireDuration = 0
+                               }
+                );
+            }
+            map._map.push_back(row1);
+            map._mapLast.push_back(row2);
+        }
+    } else if (command.substr(0, 10) == "load local") {
+        loadMapFromFile("data.txt", map);
+    } else if (command.substr(0, 11) == "load server") {
+        loadMapFromServer(map);
     } else if (command == "end") {
         map.simulationEnd = true;
     }
@@ -427,81 +451,4 @@ int main() {
 
     pthread_mutex_destroy(&map.mutex);
     return 0;
-
-    /*
-     //Socket init
-    ClientSocket *clientSocket = ClientSocket::createConnection("frios2.fri.uniza.sk", 11887);
-
-    srand(time(nullptr));
-
-    //Map init
-    TileMap tileMap(clientSocket);
-
-    string command;
-    cout <<
-         "new - vytvorenie novej mapy\nload [local/server] - nacitanie mapy\nend - ukonci"
-         << endl;
-
-    bool run = true;
-
-    getline(cin, command);
-    cin.clear();
-
-    if (command == "new") {
-        int mapSize = 0;
-        cout << "Zadajte velkost mapy: " << endl;
-        cin >> mapSize;
-        tileMap.MakeNew(mapSize);
-    } else if (command.substr(0, 10) == "load local") {
-        tileMap.LoadFromFile();
-    } else if (command.substr(0, 11) == "load server") {
-        tileMap.LoadFromServer();
-    } else if (command == "end") {
-        run = false;
-    }
-
-    while (run) {
-        system("cls");
-        tileMap.Print();
-
-        cout << endl;
-        cout <<
-             "*ENTER* - krok simulacie\nfire [x] [y] - zapalenie biotopu\nsave [local/server] - ulozi mapu\nload [local/server] - nacita mapu\nend - ukonci"
-             << endl;
-
-        getline(cin, command);
-        cin.clear();
-        if (command == "end") {
-            run = false;
-        } else if (command.substr(0, 4) == "fire") {
-            int x, y;
-            istringstream iss(command.substr(5));
-            if (iss >> x >> y) {
-                if (tileMap.Fire(x - 1, y - 1)) {
-                    cout << "Zapal na pozicii: [" << x << ", " << y << "]" << endl;
-                } else {
-                    cout << "Tento typ biotopu nemoze horiet" << endl;
-                }
-            } else {
-                cout << "Neznamy prikaz" << endl;
-            }
-            getline(cin, command);
-        } else if (command.substr(0, 10) == "save local") {
-            tileMap.SaveToFile();
-        } else if (command.substr(0, 11) == "save server") {
-            tileMap.SaveToServer();
-        } else if (command.substr(0, 10) == "load local") {
-            tileMap.LoadFromFile();
-        } else if (command.substr(0, 11) == "load server") {
-            tileMap.LoadFromServer();
-        } else {
-            tileMap.Step();
-        }
-    }
-
-    delete clientSocket;
-    clientSocket = nullptr;
-
-    return 0;
-     */
 }
